@@ -38,7 +38,9 @@ char *exec_command(char *cmd)
 
 	debug("Executing: %s\n", cmd);
 
-	pipe(pipefd);
+	if (pipe(pipefd) != 0)
+		perror("Error, cannot create pipe to communicate with child process");
+
 	pid = fork();
 
 	if (pid == 0)
