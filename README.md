@@ -40,9 +40,17 @@ You can notice the presence of the value 0xc3 as the last byte of the second ins
 
 This value is really important because it happens to be the machine code for the "ret" instruction.
 
-So let's assume we jump in the middle of the "cmpb $0xc3,(%edi,%ebx,1)" instruction, for instance at address
+So let's assume we jump in the middle of the following instruction: 
 
-0x8049166a, the CPU would see the following machine code sequence : 1f c3
+```asm
+cmpb $0xc3,(%edi,%ebx,1)
+```
+
+For instance at address 0x8049166a. The CPU would see the following machine code sequence: 
+
+```
+1f c3
+```
 
 let's see what this means in term of x86 instruction : 
 
