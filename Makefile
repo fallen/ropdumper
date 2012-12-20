@@ -1,7 +1,7 @@
 SRC = main.c
 OBJ = main.o
 BINARY = ropdumper
-CFLAGS ?= -O2 -fstack-protector -Wall -Werror
+CFLAGS ?= -D_FORTIFY_SOURCE=2 -O2 -fstack-protector --param=ssp-buffer-size=4 -Wall -Wformat-security -Werror
 LDFLAGS ?= -lbfd
 
 ifeq ($(DEBUG),1)
