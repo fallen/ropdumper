@@ -23,7 +23,8 @@
 
 #define min(a,b) ( (a) > (b) ? (b) : (a) )
 
-int verbose;
+int verbose = 0;
+int show_hidden_rops_only = 0;
 char *bin_filename;
 unsigned int rop_found;
 unsigned int hidden_rop_found;
@@ -121,6 +122,13 @@ void gadget_guessing(bfd *fd, asection *p, unsigned char *data, unsigned long i)
 		printf("ROP gadget found @ %08" BFD_VMA_FMT "x\n", bfd_section_vma(fd, p) + i);
 		rop_found++;
 		free(out);
+		if (!show_hidden_rops_only)
+		{
+			snprintf(cmd, 1024, "objdump -D %s | grep -B5 \"%" BFD_VMA_FMT "x:\"", bin_filename, bfd_section_vma(fd, p) + i);
+			out = exec_command(cmd);
+			printf("%s\n", out);
+			free(out);
+		}
 		return;
 	} else {
 		if (verbose)
@@ -248,6 +256,10 @@ int main(int argc, char ** argv)
 	envstr = getenv("VERBOSE");
 	if (envstr != NULL && strcmp(envstr, "1") == 0)
 		verbose = 1;
+
+	envstr = getenv("HIDDEN_ONLY");
+	if (envstr != NULL && strcmp(envstr, "1") == 0)
+		show_hidden_rops_only = 1;
 
 	if (access(argv[1], R_OK) != 0)
 	{
