@@ -25,6 +25,7 @@
 
 int verbose = 0;
 int show_hidden_rops_only = 0;
+int search_all_sections = 0;
 char *bin_filename;
 unsigned int rop_found;
 unsigned int hidden_rop_found;
@@ -261,6 +262,10 @@ int main(int argc, char ** argv)
 	if (envstr != NULL && strcmp(envstr, "1") == 0)
 		show_hidden_rops_only = 1;
 
+	envstr = getenv("ALL_SECTIONS");
+	if (envstr != NULL && strcmp(envstr, "1") == 0)
+		search_all_sections = 1;
+
 	if (access(argv[1], R_OK) != 0)
 	{
 		printf("Cannot open %s in read-only\n", argv[1]);
@@ -295,10 +300,10 @@ int main(int argc, char ** argv)
 		const char *name = bfd_section_name(fd, p);
 		flagword flags = bfd_get_section_flags(fd, p);
 
-		if ( (flags & SEC_CODE) || verbose)
+		if ( (flags & SEC_CODE) || verbose || search_all_sections)
 			printf("[%s] Section %s @ 0x%08" BFD_VMA_FMT "x len : %d\n", flags & SEC_CODE ? "+" : "-", name, base_addr, (unsigned int)size);
 
-		if (flags & SEC_CODE)
+		if ((flags & SEC_CODE) || search_all_sections)
 			analyze_section(fd, p);
 
 	}
