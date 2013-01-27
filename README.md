@@ -10,13 +10,15 @@ A tool to find ROP gadgets hidden in binary files.
 
 A) It's a short sequence (usually 2 or 3 instructions) of x86 assembly instructions ending with "ret" which is very
 
-usefull to exploit stack overflow when the stack is "non-executable" (which is the case almost everywhere now)
+usefull to exploit stack overflow when the stack is "non-executable" (which is the case on systems with kernel patched with PaX patchset)
 
 See the Wikipedia article about <a href="http://en.wikipedia.org/wiki/Return-oriented_programming">Return-oriented Programming</a>.
 
 Some slides about <a href="http://fr.slideshare.net/null0x00/return-oriented-programming-rop-based-exploits-part-i#btnNext">ROP gadgets used in return-oriented programming hacks</a>.
 
 See the Wikipedia article about <a href="http://en.wikipedia.org/wiki/Buffer_overflow">Buffer overflow</a>.
+
+See the Wikipedia article about <a href="http://en.wikipedia.org/wiki/PaX">PaX</a>.
 
 **Q) What is a "hidden" ROP gadget?**
 
