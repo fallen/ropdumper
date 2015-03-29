@@ -46,7 +46,7 @@ char *exec_command(char *cmd)
 	if (pipe(pipefd) != 0)
 		perror("Error, cannot create pipe to communicate with child process");
 
-	pid = fork();
+	pid = vfork();
 
 	if (pid == 0)
 	{
